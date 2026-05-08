@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FaceTime Callout
 
-## Getting Started
+Ett minimalistiskt uppringningsverktyg för FaceTime, byggt för TV-redaktioner och kontrollrum. Designat för att användas säkert i skarp sändning.
 
-First, run the development server:
+---
+
+## Komma igång
+
+### Förutsättningar
+
+- Node.js 18+
+- npm
+
+### Installation
+
+```bash
+npm install
+```
+
+### Kör lokalt
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Öppna [http://localhost:3000](http://localhost:3000) i webbläsaren.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Bygga för produktion
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+### Tester
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploya till Vercel
 
-## Deploy on Vercel
+1. Pusha projektet till ett GitHub-repo.
+2. Gå till [vercel.com](https://vercel.com) och importera repot.
+3. Vercel identifierar Next.js automatiskt — inga extra inställningar krävs.
+4. Klicka **Deploy**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Alternativt via Vercel CLI:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx vercel
+```
+
+---
+
+## Hur FaceTime-länkar fungerar på macOS
+
+Appen använder URL-schemat `facetime://` för att starta ett FaceTime-samtal:
+
+```
+facetime://+46701234567
+```
+
+När länken aktiveras:
+- macOS frågar om FaceTime ska öppnas (första gången per session).
+- FaceTime startar och ringer upp numret.
+- Webbläsaren stannar kvar på sidan — inga data försvinner.
+
+### Telefonnummerformat som stöds
+
+| Inmatat format       | Normaliserat till  |
+|----------------------|--------------------|
+| `0701234567`         | `+46701234567`     |
+| `070-123 45 67`      | `+46701234567`     |
+| `+46701234567`       | `+46701234567`     |
+| `0046701234567`      | `+46701234567`     |
+| `08-12345678`        | `+4681234568`      |
+| `0044701234567`      | `+44701234567`     |
+
+---
+
+## Begränsningar
+
+- **Kräver macOS med FaceTime installerat.** Fungerar inte på Windows eller Linux.
+- **Webbläsaren måste tillåta protokollhanterare.** En dialogruta kan visas första gången.
+- **FaceTime kräver att mottagaren har ett Apple-konto** kopplat till numret.
+- **Fungerar bäst i Chrome och Safari på macOS.**
+- Appen lagrar **inga telefonnummer** — varken lokalt eller på server.
+
+---
+
+## Broadcast safe-tänk
+
+- Ingen samtalshistorik visas på huvudskärmen.
+- Nummer rensas automatiskt 6 sekunder efter uppringning.
+- **Säker skärm** (Escape eller knapp) visar en neutral skärm utan känslig information.
+- Inga telefonnummer i URL-querystring.
+- Inga externa analytics eller tracking.
