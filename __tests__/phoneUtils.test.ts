@@ -27,11 +27,11 @@ describe('normalizePhoneNumber', () => {
   })
 
   it('Stockholm landline', () => {
-    expect(normalizePhoneNumber('08-12345678')).toBe('+4681234567 8'.replace(' ', ''))
+    expect(normalizePhoneNumber('08-12345678')).toBe('+46812345678')
   })
 
   it('Stockholm landline full', () => {
-    expect(normalizePhoneNumber('08-123 456 78')).toBe('+468123456 78'.replace(' ', ''))
+    expect(normalizePhoneNumber('08-123 456 78')).toBe('+46812345678')
   })
 
   it('Other international with 00 prefix', () => {
